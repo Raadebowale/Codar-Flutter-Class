@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/providers/todo_provider.dart';
@@ -18,14 +20,24 @@ class _HomeState extends State<Home> {
   void initState() {
     initTodo();
     super.initState();
+    log('In init state');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    addTask.dispose();
   }
 
   initTodo() async {
     await Provider.of<TodoProvider>(context, listen: false).populateTodos();
+    log('In tod method');
   }
 
   @override
   Widget build(BuildContext context) {
+    log('In build method');
+
     final todoData = Provider.of<TodoProvider>(context);
     return Scaffold(
       backgroundColor: Colors.teal[100],

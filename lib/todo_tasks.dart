@@ -42,6 +42,7 @@ class TodoTasks extends StatelessWidget {
             size: 25.0,
           ),
         ),
+        
         title: Text(
           title,
           style: TextStyle(
