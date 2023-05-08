@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/providers/todo_provider.dart';
@@ -18,15 +20,25 @@ class _HomeState extends State<Home> {
   void initState() {
     initTodo();
     super.initState();
+    log("In init state");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    addTask.dispose();
   }
 
   initTodo() async {
     await Provider.of<TodoProvider>(context, listen: false).populateTodos();
+    log("In todo method");
   }
 
   @override
   Widget build(BuildContext context) {
+    log("In build method");
     final todoData = Provider.of<TodoProvider>(context);
+    // todoData.populateTodos();
     return Scaffold(
       backgroundColor: Colors.teal[100],
       appBar: AppBar(
@@ -98,8 +110,8 @@ class _HomeState extends State<Home> {
                   return TodoTasks(
                     title: todo["title"],
                     isDone: todo["isDone"],
-                    id: todo["id"],
                     todo: todo,
+                    // id: todo["id"],
                   );
                 },
               ),
@@ -150,7 +162,7 @@ class _HomeState extends State<Home> {
                           });
                         }); */
                         todoData.addTodo({
-                          "id": (todoData.todos.length + 1),
+                          // "id": (todoData.todos.length + 1),
                           "isDone": false,
                           "title": addTask.text
                         });

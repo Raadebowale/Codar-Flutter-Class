@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:todo/providers/todo_provider.dart';
 
 class TodoTasks extends StatelessWidget {
-  final int id;
+  // final int id;
   final String title;
   final bool isDone;
-  final Map todo;
+  final Map<String, dynamic> todo;
   // final Function doneSetter;
   // final Function deleteSetter;
   const TodoTasks(
       {super.key,
-      required this.id,
+      // required this.id,
       required this.title,
       required this.isDone,
       required this.todo
