@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/providers/todo_provider.dart';
@@ -22,6 +24,7 @@ class TodoTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final todoData = Provider.of<TodoProvider>(context);
+    log(todo.toString());
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(

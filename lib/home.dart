@@ -161,7 +161,9 @@ class _HomeState extends State<Home> {
                             "title": addTask.text
                           });
                         }); */
-                        todoData.addTodo({
+                        
+                          
+                        todoData.addTodo(context, {
                           // "id": (todoData.todos.length + 1),
                           "isDone": false,
                           "title": addTask.text

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -15,21 +17,36 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTodo(Map<String, dynamic> todo) async {
-    await db.collection(todoCollection).add(
-        todo); // Wait for the document to be added before notifying listeners
-    if (todo["title"] != "") {
-      todos.add(todo);
+  void addTodo(BuildContext context, Map<String, dynamic> todo) async {
+    if (todo["title"].toString().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+        'You cannot add an empty string',
+        style: TextStyle(color: Colors.red),
+      )));
+      return;
     }
+    final docref = await db.collection(todoCollection).add(
+        todo); // Wait for the document to be added before notifying listeners
+    await db
+        .collection(todoCollection)
+        .doc(docref.id)
+        .update({'id': docref.id});
+    todos.add({...todo, 'id': docref.id});
+
     notifyListeners();
   }
 
   void deleteTodo(Map<String, dynamic> todo) async {
     todos.remove(todo);
-    await db
-        .collection(todoCollection)
-        .doc(todo['id'])
-        .delete(); // Use 'id' to get the document ID
+    log(todo['id']);
+    try {
+      await db.collection(todoCollection).doc(todo['id']).delete();
+      log('Todo delelted success');
+    } catch (e) {
+      log('An Error Ocuured ${e.toString()}');
+    }
+    // Use 'id' to get the document ID
     notifyListeners();
   }
 
