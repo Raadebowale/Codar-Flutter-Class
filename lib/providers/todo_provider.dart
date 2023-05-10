@@ -18,7 +18,9 @@ class TodoProvider extends ChangeNotifier {
   void addTodo(Map<String, dynamic> todo) async {
     await db.collection(todoCollection).add(
         todo); // Wait for the document to be added before notifying listeners
-    todos.add(todo);
+    if (todo["title"] != "") {
+      todos.add(todo);
+    }
     notifyListeners();
   }
 
@@ -33,11 +35,11 @@ class TodoProvider extends ChangeNotifier {
 
   void setDone(Map<String, dynamic> todo) async {
     todo['isDone'] = !todo['isDone'];
+    notifyListeners();
     await db
         .collection(todoCollection)
         .doc(todo['id'])
         .update(todo); // Use 'id' to get the document ID
-    notifyListeners();
   }
 }
 
@@ -72,6 +74,12 @@ class TodoProvider extends ChangeNotifier {
 
     db.collection(todoCollection).add(todo);
 
+    notifyListeners();
+  }
+  void addTodo(Map<String, dynamic> todo) async {
+    await db.collection(todoCollection).add(
+        todo); // Wait for the document to be added before notifying listeners
+    todos.add(todo);
     notifyListeners();
   }
 
